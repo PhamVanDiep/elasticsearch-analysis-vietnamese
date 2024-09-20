@@ -25,13 +25,28 @@ services:
       bootstrap.memory_lock: "true"
       discovery.type: "single-node"
       xpack.security.enabled: "true"
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
-      - /home/sear/elasticsearch-analysis-vietnamese/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     networks:
       - elastic
-volumes:
-  elasticsearch-data:
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${ES_VERSION}
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+      ELASTICSEARCH_USERNAME: elastic
+      ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
+    networks:
+      - elastic
+    volumes:
+      - kibana-data:/usr/share/kibana/data
+    depends_on:
+      - elasticsearch
 networks:
   elastic:
     driver: bridge
+volumes:
+  elasticsearch-data:
+  kibana-data:
