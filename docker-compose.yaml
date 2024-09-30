@@ -27,7 +27,6 @@ services:
       xpack.security.enabled: "true"
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
-      - /home/sear/elasticsearch-analysis-vietnamese/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     networks:
       - elastic
 volumes:
